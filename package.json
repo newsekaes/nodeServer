@@ -1,0 +1,25 @@
+{
+  "name": "devnodeserver",
+  "version": "0.0.1",
+  "description": "\"Local server to debug\"",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "\"Server\""
+  ],
+  "author": "\"Lim\"",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0"
+  },
+  "dependencies": {
+    "mongodb": "^3.1.0"
+  }
+}
