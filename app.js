@@ -1,6 +1,7 @@
 const Server = require('./core/server')
 // const db = require('./core/db')
 const server = new Server()
+const readDirDeep = require('./core/file').readDirDeep
 
 server.post('/greet', function (req, res, bufferConCat) {
   const payload = JSON.parse(bufferConCat.toString())
@@ -11,3 +12,5 @@ server.post('/greet', function (req, res, bufferConCat) {
   }))
   res.end()
 })
+/* 异步深度读取目录示例 */
+readDirDeep('./').then(list => console.log(list))
