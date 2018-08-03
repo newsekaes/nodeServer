@@ -15,7 +15,7 @@ module.exports = class Server {
         res.writeHeader(200, {'Content-Type': 'text/html;charset=UTF-8'})
         res.write(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Index</title></head><body><h1>Hello World</h1></body>`)
         res.end()
-      } else if (!this.queue.post[url]) {
+      } else if (!this.queue.post[url] && !this.queue.get[url]) {
         notFound(req, res)
       } else {
         switch (req.method) {
@@ -49,13 +49,41 @@ module.exports = class Server {
       res.end()
     }
   }
+
+  /**
+   * get请求的归列
+   * @param url
+   * @param callback
+   */
   get (url, callback) {
     this.queue.get[getUrl(url)] = callback
   }
+
+  /**
+   * post请求的归列
+   * @param url
+   * @param callback
+   */
   post (url, callback) {
     this.queue.post[getUrl(url)] = callback
   }
+
+  /**
+   * 批量绑定路由
+   * @param routerArray
+   */
+  use (routerArray) {
+    routerArray.forEach(router => {
+      this[router.method.toLowerCase()](router.path, router.callback)
+    })
+  }
 }
+
+/**
+ * 格式化url地址为 '/name' 的形式
+ * @param url
+ * @returns {*}
+ */
 function getUrl (url) {
   return url.replace(new RegExp('^(/?)(.*[^/])?(/?)$'), function (match, p1, p2) {
     return p1 + (p2 || '')

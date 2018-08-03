@@ -7,51 +7,68 @@
 <body>
 <input type="file" id="file">
 <script>
-  const input = document.querySelector('#file')
-  new Promise(resolve => {
-    input.addEventListener('change', e => resolve(e.target.files[0]))
-  })
-    .then(reader)
-    .then(setFile)
-    .catch(err => console.error(err))
+ // const input = document.querySelector('#file')
+ // new Promise(resolve => {
+ //   input.addEventListener('change', e => resolve(e.target.files[0]))
+ // })
+ //   .then(reader)
+ //   .then(setFile)
+ //   .catch(err => console.error(err))
+ //
+ // function reader(file) {
+ //   const reader = new FileReader()
+ //   reader.readAsArrayBuffer(file)
+ //   return new Promise(resolve => {
+ //     reader.addEventListener('load', e => {
+ //       debugger
+ //       resolve(new Blob([e.target.result]))
+ //     })
+ //   })
+ // }
+ //
+ // function setFile(blob) {
+ //   let data = new FormData()
+ //   data.append('file', blob)
+ //   const xhrObj = post('http://localhost:9090/upload?a=1&b=2&c=3', data, 'multipart/form-data')
+ //   xhrObj.promise.then(res => console.log(res))
+ //   xhrObj.ajax.upload.addEventListener('progress', e => {
+ //     debugger
+ //   })
+ // }
 
-  function reader (file) {
-    const reader = new FileReader()
-    reader.readAsArrayBuffer(file)
-    return new Promise(resolve => {
-      reader.addEventListener('load', e => {
-        debugger
-        resolve(new Blob([e.target.result]))
-      })
-    })
-  }
-
-  function setFile (blob) {
-    let data = new FormData()
-    data.append('file', blob)
-    const xhrObj = post('http://localhost:9090/upload?a=1&b=2&c=3', data, 'multipart/form-data')
-    xhrObj.promise.then(res => console.log(res))
-    xhrObj.ajax.upload.addEventListener('progress', e => {
-      debugger
-    })
-  }
-  function post (url, data, contentType = 'application/x-www-form-urlencoded;charset=utf-8') {
-    const ajax = new XMLHttpRequest()
-    const promise = new Promise(resolve => {
-      ajax.open('post', url)
-      ajax.setRequestHeader('Content-type', contentType)
-      ajax.send(data)
-      ajax.onreadystatechange = function () {
-        if (ajax.readyState === 4 && ajax.status === 200) {
-          resolve(ajax.responseText);
-        }
+ function post(url, data, contentType = 'application/x-www-form-urlencoded;charset=utf-8') {
+   const ajax = new XMLHttpRequest()
+   const promise = new Promise(resolve => {
+     ajax.open('post', url)
+     ajax.setRequestHeader('Content-type', contentType)
+     ajax.send(data)
+     ajax.onreadystatechange = function () {
+       if (ajax.readyState === 4 && ajax.status === 200) {
+         resolve(ajax.responseText);
+       }
+     }
+   })
+   return {promise, ajax}
+ }
+ post('http://localhost:9090/greet', JSON.stringify({
+   name: "Tom"
+ }))
+function get(url) {
+  const ajax = new XMLHttpRequest()
+  const promise = new Promise(resolve => {
+    ajax.open('get', url)
+    ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8')
+    ajax.onreadystatechange = function () {
+      if (ajax.readyState === 4 && ajax.status === 200) {
+        resolve(ajax.responseText);
       }
-    })
-    return { promise, ajax }
-  }
-  post('http://localhost:9090/greet', JSON.stringify({
-    name: "Tom"
-  }))
+    }
+    ajax.send()
+  })
+  return {promise, ajax}
+}
+get('http://localhost:9090/cpu').promise.then(data => {debugger})
+get('http://localhost:9090/readWorkDir').promise.then(data => {debugger})
 </script>
 </body>
 </html>
