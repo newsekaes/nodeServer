@@ -66,3 +66,6 @@ typings/
 *.ntvs*
 *.njsproj
 *.sln
+
+# project directory
+file
