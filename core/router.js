@@ -33,6 +33,24 @@ const routers = [
         res.end()
       })
     }
+  },
+  {
+    path: '/testDownload',
+    method: 'GET',
+    callback (req, res) {
+      res.writeHeader(200, {'Content-Type': 'application/octet-stream;charset=UTF-8', 'Content-Disposition': 'attachment;filename=123123123'})
+      res.write('123123123')
+      res.end()
+    }
+  },
+  {
+    path: '/upload',
+    method: 'POST',
+    callback (req, res) {
+      res.writeHeader(200, {'Content-Type': 'application/json;charset=UTF-8'})
+      res.write(JSON.stringify({data: '长传成功'}))
+      res.end()
+    }
   }
 ]
 module.exports = {
