@@ -35,6 +35,10 @@ module.exports = class Server {
           case 'GET':
             this.queue.get[url].call(null, req, res, param)
             break
+          case 'OPTIONS':
+            res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+            res.end()
+            break
           /* for other methods */
         }
       }
